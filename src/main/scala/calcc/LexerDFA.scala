@@ -47,17 +47,17 @@ object LexerDFA {
 
   val start = 0
 
-  val finish:Map[Int, (List[Char], Int) => Token] =
-    Map(1  -> {(_,x) => Plus(x)},
-      2  -> {(_,x) => Minus(x)},
-      3  -> {(_,x) => Multi(x)},
-      4  -> {(_,x) => Fact(x)},
-      5  -> {(a,x) => Num(a, x)},
-      6  -> {(a,x) => Num(a, x)},
-      7  -> {(a,x) => Num(a, x)},
-      10 -> {(a,x) => Num(a, x)},
-      23 -> {(w,x) => Cos(x)},
-      -1-> {(w,x) => WS(x)}
+  val finish:Map[Int, (List[Char], Int) => LToken] =
+    Map(1  -> {(_,x) => LPlus(x)},
+      2  -> {(_,x) => LMinus(x)},
+      3  -> {(_,x) => LMulti(x)},
+      4  -> {(_,x) => LFact(x)},
+      5  -> {(a,x) => LNum(a, x)},
+      6  -> {(a,x) => LNum(a, x)},
+      7  -> {(a,x) => LNum(a, x)},
+      10 -> {(a,x) => LNum(a, x)},
+      23 -> {(w,x) => LCos(x)},
+      -1-> {(w,x) => LWS(x)}
 
     )
 }

@@ -3,11 +3,11 @@ package calcc
 /**
  * Created by joe on 11/08/15.
  */
-class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (List[Char], Int) => Token]) {
+class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (List[Char], Int) => LToken]) {
 
-  def parse(values: String): Either[List[Token], String] = parse(values.toCharArray.toList)
+  def parse(values: String): Either[List[LToken], String] = parse(values.toCharArray.toList)
 
-  def parse(allValues: List[Char]): Either[List[Token], String] = {
+  def parse(allValues: List[Char]): Either[List[LToken], String] = {
     try {
       Left(parseInternal(allValues))
     } catch {
@@ -16,8 +16,8 @@ class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (Li
   }
 
 
-  private def parseInternal(allValues: List[Char]): List[Token] = {
-    def parseHelper(values: List[Char], state: Int, prev: List[Char], pos: Int): List[Token] = {
+  private def parseInternal(allValues: List[Char]): List[LToken] = {
+    def parseHelper(values: List[Char], state: Int, prev: List[Char], pos: Int): List[LToken] = {
       values match {
         case Nil =>
           // Check all the values where accepted.
