@@ -9,13 +9,14 @@ class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (Li
 
   def parse(allValues: List[Char]): Either[List[Token], String] = {
     try {
-      Left(parseWrapper(allValues))
+      Left(parseInternal(allValues))
     } catch {
       case e: IllegalArgumentException => Right(e.getLocalizedMessage)
     }
   }
 
-  private def parseWrapper(allValues: List[Char]): List[Token] = {
+
+  private def parseInternal(allValues: List[Char]): List[Token] = {
     def parseHelper(values: List[Char], state: Int, prev: List[Char], pos: Int): List[Token] = {
       values match {
         case Nil =>
