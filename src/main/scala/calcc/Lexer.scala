@@ -54,6 +54,4 @@ class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (Li
     }
     parseHelper(allValues, start, List(), 0)
   }
-
-
 }
