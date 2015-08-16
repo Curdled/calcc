@@ -5,9 +5,9 @@ package calcc
  */
 class Lexer(func: Map [(Int, List[Char]), Int], start: Int, finish: Map[Int, (List[Char], Int) => LToken]) {
 
-  def parse(values: String): Either[List[LToken], String] = parse(values.toCharArray.toList)
+  def lex(values: String): Either[List[LToken], String] = lex(values.toCharArray.toList)
 
-  def parse(allValues: List[Char]): Either[List[LToken], String] = {
+  def lex(allValues: List[Char]): Either[List[LToken], String] = {
     try {
       Left(parseInternal(allValues))
     } catch {
