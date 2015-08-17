@@ -10,7 +10,7 @@ package calcc
 abstract class Action
 
 case class Shift(state: Int) extends Action
-case class Reduce(state: Int) extends Action
+case class Reduce(production: Production) extends Action
 object Accept extends Action{
   override def toString = "acc"
 }
