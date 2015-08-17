@@ -76,7 +76,7 @@ class GrammarTable(G: Set[Production], ALL: Set[GrammarSymbol]){
         case END => if (s.contains(startState.moveDot)) Some(Accept) else None
         case x =>
           if (GOTO(s, t).nonEmpty) Some(Shift(states(GOTO(s, t))))
-          else if (s.foldLeft(false)((acc, I) => acc || I.dotAtEnd)) //TODO find the reduce state Some(Reduce(0))
+          else if (s.foldLeft(false)((acc, I) => acc || I.dotAtEnd)) Some(Reduce(s.filter(i => i.dotAtEnd).head.production))
           else None
      }
     }
