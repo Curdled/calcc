@@ -1,5 +1,6 @@
 package calcc
 
+import calcc.GrammarTable.LRTable
 
 
 /**
@@ -14,7 +15,7 @@ abstract class NonTerminal extends GrammarSymbol
 object END extends Terminal
 
 
-case class Production(val left: NonTerminal, val right: List[GrammarSymbol]){
+case class Production(left: NonTerminal, right: List[GrammarSymbol]){
   override def toString =  left + " -> " + right.foldLeft("")((acc, s) => acc + s)
 }
 
@@ -30,7 +31,13 @@ case class GrammerItem(production: Production, dotPos: Int){
   override def toString = production.left + "->" +  List(production.right.take(dotPos), List("."), production.right.drop(dotPos)).flatten.foldLeft("")((acc, s) => acc + s)
 }
 
+object GrammarTable{
+  type LRTable = (Map[(Terminal, Int), Action], Map[(NonTerminal, Int),  Int])
+}
+
 class GrammarTable(G: Set[Production], ALL: Set[GrammarSymbol]){
+
+
   def Closure(I: Set[GrammerItem]): Set[GrammerItem] = {
     def computeClosure(J: Set[GrammerItem]): Set[GrammerItem] = {
       (for{
@@ -69,18 +76,16 @@ class GrammarTable(G: Set[Production], ALL: Set[GrammarSymbol]){
     cono.filter(p => !p.contains(startState)).foldLeft(m)((A, B) => A ++ Map(B -> A.size))
   }
 
-  def grammarTable(startState: GrammerItem): (Map[(Terminal, Int), Action], Map[(NonTerminal, Int),  Int]) = {
+
+
+  def grammarTable(startState: GrammerItem): LRTable = {
     val states = CanonicalSet(startState)
     def terminalStateToAction(t : Terminal, s: Set[GrammerItem]): Option[Action] = {
-      t match{
-        case END => if (s.contains(startState.moveDot)) Some(Accept) else None
-        case x =>
-          if (GOTO(s, t).nonEmpty) Some(Shift(states(GOTO(s, t))))
-          else if (s.foldLeft(false)((acc, I) => acc || I.dotAtEnd)) Some(Reduce(s.filter(i => i.dotAtEnd).head.production))
-          else None
-     }
+      if (t == END && s.contains(startState.moveDot)) Some(Accept)
+      else if (GOTO(s, t).nonEmpty) Some(Shift(states(GOTO(s, t))))
+      else if (s.foldLeft(false)((acc, I) => acc || I.dotAtEnd)) Some(Reduce(s.filter(i => i.dotAtEnd).head.production))
+      else None
     }
-
     val goto = for{
       t <- ALL.collect{case t: NonTerminal => t}
       s <- states.keySet
@@ -91,13 +96,10 @@ class GrammarTable(G: Set[Production], ALL: Set[GrammarSymbol]){
       t <- ALL.collect{case t: Terminal => t}
       s <- states.keySet
       v = terminalStateToAction(t,s)
-      if v != None
+      if v.isDefined
       Some(a) = v
     } yield (t, states(s)) -> a
 
     (action.toMap,  goto.toMap)
   }
-
-
-
 }
