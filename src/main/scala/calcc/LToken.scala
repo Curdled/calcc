@@ -6,13 +6,13 @@ package calcc
 abstract class LToken(pos: Int) extends Terminal(pos)
 
 case class LPlus(poss: Int) extends LToken(poss){
-  override def toString = "+"
+  override def toString = "Plus"
 }
 case class LMinus(poss: Int) extends LToken(poss){
-  override def toString = "-"
+  override def toString = "Minus"
 }
 case class LMulti(poss: Int) extends LToken(poss){
-  override def toString = "*"
+  override def toString = "Times"
 }
 case class LCos(poss: Int) extends LToken(poss){
   override def toString = "Cos"
