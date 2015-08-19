@@ -1,13 +1,5 @@
-/**
- * Created by joeisaacs on 18/08/15.
- */
-
 import calcc.Parser
 import calcc._
-
-import sext._
-
-
 
 
 object Main {
@@ -19,11 +11,12 @@ object Main {
         val table = new GrammarTable(ParserProductions.allProductions, ParserProductions.allGrammarSymbols)
         val t = table.grammarTable(ParserProductions.startItem)
         val p = new Parser(t)
-        val output = p.parse(s)
-        println(output.treeString)
+        p.parse(s) match{
+          case Left(output) => println(output)
+          case Right(error) => System.err.println(error)
+        }
+
       case Right(s) => throw new IllegalArgumentException(s)
     }
-
-
   }
 }
