@@ -22,7 +22,9 @@ object Accept extends Action{
 class Parser(table:  LRTable){
   def parse(input: List[Terminal]) = {
     def parser(input: List[Terminal], stack: List[Int],t: List[Tree[GrammarSymbol]]): Tree[GrammarSymbol] = {
-      table._1.get((input.head,stack.head)) match{
+      val x = (input.head, stack.head)
+      val u = table._1.get((input.head, stack.head))
+      u match{
         case None => throw new IllegalArgumentException(s"No next state in the action table")// ${input.head.pos}")
         case Some(x) => x match{
           case Shift(y) => parser(input.tail, y :: stack, Node(input.head, List(Leaf)) :: t)
@@ -38,7 +40,7 @@ class Parser(table:  LRTable){
         }
       }
     }
-    parser(input, List(0), List(Leaf))//add the start state
+    parser(input ++ List(END), List(0), List(Leaf))//add the start state
   }
 
 }
