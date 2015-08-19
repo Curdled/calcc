@@ -9,10 +9,10 @@ import calcc.GrammarTable.LRTable
 
 abstract class GrammarSymbol
 
-abstract class Terminal extends GrammarSymbol
+abstract class Terminal(val pos: Int) extends GrammarSymbol
 abstract class NonTerminal extends GrammarSymbol
 
-object END extends Terminal
+object END extends Terminal(0)
 
 
 case class Production(left: NonTerminal, right: List[GrammarSymbol],f: List[Tree[GrammarSymbol]] => Tree[GrammarSymbol]){

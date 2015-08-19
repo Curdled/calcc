@@ -48,16 +48,17 @@ object LexerDFA {
   val start = 0
 
   val finish:Map[Int, (List[Char], Int) => LToken] =
-    Map(1  -> {(_,x) => LPlus(x)},
-      2  -> {(_,x) => LMinus()},
-      3  -> {(_,x) => LMulti()},
-      4  -> {(_,x) => LFact()},
-      5  -> {(a,x) => LNum(a)},
-      6  -> {(a,x) => LNum(a)},
-      7  -> {(a,x) => LNum(a)},
-      10 -> {(a,x) => LNum(a)},
-      23 -> {(w,x) => LCos()},
-      -1-> {(w,x) => LWS()}
+    Map(
+      1  -> {(_,x) => LPlus(x)},
+      2  -> {(_,x) => LMinus(x)},
+      3  -> {(_,x) => LMulti(x)},
+      4  -> {(_,x) => LFact(x)},
+      5  -> {(a,x) => LNum(a,x)},
+      6  -> {(a,x) => LNum(a,x)},
+      7  -> {(a,x) => LNum(a,x)},
+      10 -> {(a,x) => LNum(a,x)},
+      23 -> {(_,x) => LCos(x)},
+      -1->  {(_,x) => LWS(x)}
 
     )
 }

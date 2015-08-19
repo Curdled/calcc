@@ -3,24 +3,24 @@ package calcc
 /**
  * Created by joe on 11/08/15.
  */
-abstract class LToken extends Terminal
+abstract class LToken(pos: Int) extends Terminal(pos)
 
-case class LPlus(pos: Int) extends LToken{
+case class LPlus(poss: Int) extends LToken(poss){
   override def toString = "+"
 }
-case class LMinus() extends LToken{
+case class LMinus(poss: Int) extends LToken(poss){
   override def toString = "-"
 }
-case class LMulti() extends LToken{
+case class LMulti(poss: Int) extends LToken(poss){
   override def toString = "*"
 }
-case class LCos() extends LToken{
+case class LCos(poss: Int) extends LToken(poss){
   override def toString = "Cos"
 }
-case class LFact() extends LToken{
+case class LFact(poss: Int) extends LToken(poss){
   override def toString = "!"
 }
-case class LNum(l: List[Char]) extends LToken{
+case class LNum(l: List[Char], poss: Int) extends LToken(poss){
   def canEqual(a: Any) = a.isInstanceOf[LNum]
 
   override def equals(that: Any): Boolean =
@@ -30,6 +30,6 @@ case class LNum(l: List[Char]) extends LToken{
     }
   override def toString = l.foldLeft("")((acc, s) => acc + s)
 }
-case class LWS() extends LToken{
+case class LWS(poss: Int) extends LToken(poss){
   override def toString = "SPACE"
 }
