@@ -5,9 +5,8 @@ package calcc
  */
 abstract class Tree[+A]
 
-case class Node[+A](h: A, t: List[Tree[A]]) extends Tree[A]{
-}
+case class Node[+A](h: A, t: List[Tree[A]]) extends Tree[A]
 
 object Leaf extends Tree{
-  override def toString = ""
+  override def toString = "Leaf"
 }

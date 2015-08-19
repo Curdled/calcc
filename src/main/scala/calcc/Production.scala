@@ -15,8 +15,10 @@ abstract class NonTerminal extends GrammarSymbol
 object END extends Terminal
 
 
-case class Production(left: NonTerminal, right: List[GrammarSymbol]){
+case class Production(left: NonTerminal, right: List[GrammarSymbol],f: List[Tree[GrammarSymbol]] => Tree[GrammarSymbol]){
   override def toString =  left + " -> " + right.foldLeft("")((acc, s) => acc + s)
+
+
 }
 
 case class GrammerItem(production: Production, dotPos: Int){
