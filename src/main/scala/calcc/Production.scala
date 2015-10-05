@@ -17,8 +17,6 @@ object END extends Terminal(0)
 
 case class Production(left: NonTerminal, right: List[GrammarSymbol],f: List[Tree[GrammarSymbol]] => Tree[GrammarSymbol]){
   override def toString =  left + " -> " + right.foldLeft("")((acc, s) => acc + s)
-
-
 }
 
 case class GrammerItem(production: Production, dotPos: Int){
