@@ -25,7 +25,7 @@ class Parser(table:  LRTable){
       val x = (input.head, stack.head)
       table._1.filterKeys{ t => t._2 == stack.head && t._1.getClass == input.head.getClass }.headOption match{
         case None => Right(s"No next state in the action table, failed to parse ${input.head} at position ${input.head.pos}")
-        case Some(x) => x._2 match{
+        case Some(u) => u._2 match{
           case Shift(y) => parser(input.tail, y :: stack, Node(input.head, List(Leaf)) :: t)
           case Reduce(y) =>
             val newStack = stack.drop(y.right.size)
